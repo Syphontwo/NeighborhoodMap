@@ -17,6 +17,8 @@ A file called `api-keysEXAMPLE.json` has been included to assist you.  Replace `
 * react-dom@16.5.2
 * react-scripts@2.0.4
 
+Made using [NPM](/neighborhood-map/README.md)
+
 ## Keys Required
 * [Google Maps API](https://cloud.google.com/maps-platform/)
 
