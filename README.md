@@ -19,6 +19,9 @@ A file called `api-keysEXAMPLE.json` has been included to assist you.  Replace `
 * react-dom@16.5.2
 * react-scripts@2.0.4
 * axios@0.18.0
+  * `npm install axios`
+* serve@10.0.2
+  * `npm install -g serve`
 * Google Maps API key
 * Foursquare API key
 
@@ -26,6 +29,13 @@ Made using [NPM](/neighborhood-map/README.md)
 
 ## Keys Required
 * [Google Maps API](https://cloud.google.com/maps-platform/)
+
+## Service Worker
+The service worker will only install in the production environment.  Make sure to use
+```
+npm run build
+serve -s build
+```
 
 ## Credit Where Credit is Due
 * [Elharony](https://www.youtube.com/channel/UCcWSbBe_s-T_gZRnqFbtyIA)
