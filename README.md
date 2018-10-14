@@ -31,7 +31,7 @@ Made using [NPM](/neighborhood-map/README.md)
 * [Google Maps API](https://cloud.google.com/maps-platform/)
 
 ## Service Worker
-The service worker will only install in the production environment.  Make sure to use
+The service worker will only install in the production environment.
 ```
 npm run build
 serve -s build

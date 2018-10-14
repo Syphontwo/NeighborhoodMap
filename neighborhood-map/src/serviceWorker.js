@@ -8,6 +8,15 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+// adapted from code by Ryan Waite (FEND Project Coach)
+const CACHE_VERSION = 2; //iterating up to make sure the updates go as expected
+const STATIC_CACHE = `static-cache-v${CACHE_VERSION}`;
+const IMAGES_CACHE = `images-cache-v`;
+const allCaches = [
+  STATIC_CACHE,
+  IMAGES_CACHE
+];
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -118,20 +127,7 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-/* Static */
-
-const CACHE_VERSION = 1;
-const STATIC_CACHE = `static-cache-v${CACHE_VERSION}`;
-const IMAGES_CACHE = `images-cache-v`;
-const OTHERS_CACHE = `others-cache-v`;
-const allCaches = [
-  STATIC_CACHE,
-  IMAGES_CACHE,
-  OTHERS_CACHE
-];
-
-/* Functions */
-
+/// Check if this is an image by inspecting the end of the url
 function isImageURL(url) {
   let img_types = ["jpg", "jpeg", "png", "gif"];
   var isImage = false;
@@ -141,18 +137,19 @@ function isImageURL(url) {
   return isImage;
 }
 
+/// Store file in the appropriate cache
 function storeInCache(cacheName, requestClone, responseClone) {
   return caches.open(cacheName).then(function(cache){
     return cache.put(requestClone, responseClone)
   });
 }
 
+/// Check if the URL is external by inspecting the beginning
 function isExternalResources(url) {
   return url.startsWith('http');
 }
 
-/* Listeners */
-
+/// Creates the caches
 window.self.addEventListener("install", function(event){
   event.waitUntil(
     caches.open(STATIC_CACHE).then(function(cache){
@@ -165,6 +162,7 @@ window.self.addEventListener("install", function(event){
   );
 });
 
+/// Clear old caches when updating the service worker
 window.self.addEventListener("activate", function(event){
   event.waitUntil(
     caches.keys().then(function(cacheNames){
@@ -181,6 +179,7 @@ window.self.addEventListener("activate", function(event){
   );
 });
 
+/// Check if the fetch request is in a cache, then return if it is, otherwise add it
 window.self.addEventListener("fetch", function(event){
   if(event.request.method === "GET") {
     event.respondWith(
@@ -189,8 +188,7 @@ window.self.addEventListener("fetch", function(event){
         var url = new URL(event.request.url);
         try {
           return fetch(event.request).then(function(response){
-            // if(url.origin !== location.origin) { useCache = OTHERS_CACHE; }
-            // else { useCache = isImageURL(event.request.url) ? IMAGES_CACHE : STATIC_CACHE; }
+            // make sure it stores in the correct cache
             let useCache = isImageURL(event.request.url) ? IMAGES_CACHE : STATIC_CACHE;
             storeInCache(useCache, event.request.clone(), response.clone());
             return response;
