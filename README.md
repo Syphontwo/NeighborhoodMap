@@ -6,7 +6,9 @@ In order to prevent theft, my API key is heavily restricted.  There is a file `/
 
 ```
 {
-  "google-maps-api": "<YOUR KEY HERE>"
+  "googleMapsApi": "<YOUR KEY HERE>",
+  "fouresquareClientID": "<YOUR KEY HERE>",
+  "foursquareClientSecret": "<YOUR KEY HERE>"
 }
 ```
 
@@ -16,6 +18,9 @@ A file called `api-keysEXAMPLE.json` has been included to assist you.  Replace `
 * react@16.5.2
 * react-dom@16.5.2
 * react-scripts@2.0.4
+* axios@0.18.0
+* Google Maps API key
+* Foursquare API key
 
 Made using [NPM](/neighborhood-map/README.md)
 
