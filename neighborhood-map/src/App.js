@@ -8,6 +8,7 @@ import APIkeys from './api-keys.json';
 
 class App extends Component {
 
+  /// react state
   state = {
     venues: []
   }
@@ -15,7 +16,6 @@ class App extends Component {
   /// Run after this component is mounted
   componentDidMount() {
     this.getVenues();
-    this.loadMap();
   }
 
   /// Load the google map API script in a way that is visible to react
@@ -36,11 +36,12 @@ class App extends Component {
       v: 20181013
     }
 
+    // API Call, then a callback to load the map using data from the call
     axios.get(endPoint + new URLSearchParams(parameters))
       .then(response => {
         this.setState({
           venues: response.data.response.groups[0].items
-        });
+        }, this.loadMap()); // callback to load map after getting venues
       })
       .catch(error => {
         console.log(error);
@@ -53,6 +54,22 @@ class App extends Component {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     });
+
+    // ensure there is only one infowindow
+    const infowindow = new window.google.maps.InfoWindow();
+
+    this.state.venues.map(item => {
+      const marker = new window.google.maps.Marker({
+        position: {lat: item.venue.location.lat, lng: item.venue.location.lng},
+        map: map,
+        title: item.venue.name
+      });
+
+      marker.addListener('click', function(){
+        infowindow.setContent(item.venue.name);
+        infowindow.open(map, marker);
+      });
+    })
   }
 
   /// main render command to build the DOM
@@ -64,8 +81,8 @@ class App extends Component {
   )}
 }
 
-/// Create a DOM object for the script tag
 // Thank you Elharony for help with this technique
+/// Create a DOM object for the script tag
 function loadScript(url) {
   const index = window.document.getElementsByTagName('script')[0];
   const script = window.document.createElement('script');
