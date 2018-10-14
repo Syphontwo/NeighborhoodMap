@@ -1,9 +1,65 @@
-#map{
-  height: 100vh;
-}
-
+/* main */
 html, body{
   height: 100vh;
   margin: 0;
   padding: 0;
+}
+
+/* Map */
+#map{
+  height: 100vh;
+}
+/* Nav Bar */
+nav {
+  display: flex;
+  background-color: #000;
+}
+nav p {
+  margin: 5px;
+  font-size: 2em;
+  font-family: "Arial Black", Gadget, sans-serif;
+  color: #FFF;
+}
+
+/* Hamburger Menu */
+#hamburger {
+    display: inline-block;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#hamburger:hover {
+  background-color: #A9A9A9;
+}
+
+#hamburgerbar1, #hamburgerbar2, #hamburgerbar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #FFF;
+    margin: 6px 5px;
+    transition: 0.4s;
+}
+
+.x #hamburgerbar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
+    transform: rotate(-45deg) translate(-9px, 6px) ;
+}
+
+.x #hamburgerbar2 {
+    opacity: 0;
+}
+
+.x #hamburgerbar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
+    transform: rotate(45deg) translate(-8px, -8px) ;
+}
+
+/* small screen changes */
+@media only screen and (max-width: 400px){
+  nav p {
+    margin: 5px;
+    font-size: 1em;
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: #FFF;
+  }
 }

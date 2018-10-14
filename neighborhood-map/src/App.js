@@ -72,10 +72,22 @@ class App extends Component {
     })
   }
 
+  toggleMenu(){
+    document.getElementById('hamburger').classList.toggle("x");
+  }
+
   /// main render command to build the DOM
   render() {
     return (
       <main>
+        <nav>
+          <div id="hamburger" onClick={this.toggleMenu}>
+            <div id="hamburgerbar1"></div>
+            <div id="hamburgerbar2"></div>
+            <div id="hamburgerbar3"></div>
+          </div>
+          <p>Neighborhood Map</p>
+        </nav>
         <div id="map"></div>
       </main>
   )}
