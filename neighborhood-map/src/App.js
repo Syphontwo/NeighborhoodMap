@@ -74,6 +74,7 @@ class App extends Component {
 
   toggleMenu(){
     document.getElementById('hamburger').classList.toggle("x");
+    document.getElementById('map_list').classList.toggle("hidden");
   }
 
   /// main render command to build the DOM
@@ -88,7 +89,10 @@ class App extends Component {
           </div>
           <p>Neighborhood Map</p>
         </nav>
+        <div id="app">
+        <div id="map_list" class="hidden"></div>
         <div id="map"></div>
+        </div>
       </main>
   )}
 }

@@ -5,8 +5,28 @@ html, body{
   padding: 0;
 }
 
+#app{
+  display: flex;
+}
+
+/* list */
+#map_list{
+  width: 50vw;
+  max-width: 350px;
+  min-width: 100px;
+  background-color: #fff;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+#map_list.hidden{
+  width: 0vw;
+  min-width: 0px;
+}
+
 /* Map */
 #map{
+  flex: auto;
   height: 100vh;
 }
 /* Nav Bar */
