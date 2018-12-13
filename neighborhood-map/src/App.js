@@ -6,22 +6,25 @@ import APIkeys from './api-keys.json';
 // Make sure this json is present, contains a googleMapsApi property,
 // and that the property contains a valid, active, google maps API key
 
+function ListItems (props) {
+  return(
+  props.venues.map( item =>
+  <div class="list_item">
+    <h2>{item.venue.name}</h2>
+  </div> ))
+}
+
 class App extends Component {
 
   /// react state
   state = {
-    venues: []
+    venues: [],
+    search: ''
   }
 
   /// Run after this component is mounted
   componentDidMount() {
     this.getVenues();
-  }
-
-  /// Load the google map API script in a way that is visible to react
-  loadMap = () => {
-    loadScript('https://maps.googleapis.com/maps/api/js?key=' + APIkeys.googleMapsApi + '&callback=initMap');
-    window.initMap = this.initMap;
   }
 
   /// fetch the venue data from the forsquare API using Axios
@@ -41,11 +44,27 @@ class App extends Component {
       .then(response => {
         this.setState({
           venues: response.data.response.groups[0].items
-        }, this.loadMap()); // callback to load map after getting venues
+        }, () => {this.loadApp();}); // callback to load app after getting venues
       })
       .catch(error => {
         console.log(error);
       })
+  }
+
+  loadApp = () => {
+    document.getElementById("loading").style.display = "none";
+    console.log(`after loop ${this.state.venues.length}`);
+    this.loadMap();
+    console.log(`after loadmap ${this.state.venues.length}`);
+    this.populateList();
+  }
+
+  /// Load the google map API script in a way that is visible to react
+  loadMap = () => {
+    console.log(`start load map ${this.state.venues.length}`);
+    loadScript('https://maps.googleapis.com/maps/api/js?key=' + APIkeys.googleMapsApi + '&callback=initMap');
+    console.log(`after script load ${this.state.venues.length}`);
+    window.initMap = this.initMap;
   }
 
   ///  load a map in a default position
@@ -55,9 +74,9 @@ class App extends Component {
       zoom: 8
     });
 
+    console.log(`before placing markers ${this.state.venues.length}`);
     // ensure there is only one infowindow
     const infowindow = new window.google.maps.InfoWindow();
-
     this.state.venues.map(item => {
       const marker = new window.google.maps.Marker({
         position: {lat: item.venue.location.lat, lng: item.venue.location.lng},
@@ -70,6 +89,21 @@ class App extends Component {
         infowindow.open(map, marker);
       });
     })
+  }
+
+  ListItems = this.state.venues.map( item =>
+    <div class="list_item">
+      <h2>{item.venue.name}</h2>
+    </div> );
+
+  populateList = () => {
+    console.log(`populating list ${this.state.venues.length}`);
+
+    this.ListItems = this.state.venues.map( item =>
+      <div class="list_item">
+        <h2>{item.venue.name}</h2>
+      </div> );
+
   }
 
   toggleMenu(){
@@ -90,8 +124,13 @@ class App extends Component {
           <p>Neighborhood Map</p>
         </nav>
         <div id="app">
-        <div id="map_list" class="hidden"></div>
+        <div id="map_list" className="hidden">
+          <div id="location_list"><ListItems venues={this.state.venues}/></div>
+        </div>
         <div id="map"></div>
+        </div>
+        <div id="loading">
+          <p>Loading Venues</p>
         </div>
       </main>
   )}
