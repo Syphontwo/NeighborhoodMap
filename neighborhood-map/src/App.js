@@ -8,9 +8,13 @@ import APIkeys from './api-keys.json';
 
 function ListItems (props) {
   return(
-  props.venues.map( item =>
+  props.venues.filter(item =>
+   item.venue.name.toLowerCase().includes(props.filter.toLowerCase()) ||
+   item.venue.location.address.toLowerCase().includes(props.filter.toLowerCase()))
+  .map( item =>
   <div class="list_item">
     <h2>{item.venue.name}</h2>
+    <p>{item.venue.location.address}</p>
   </div> ))
 }
 
@@ -19,7 +23,7 @@ class App extends Component {
   /// react state
   state = {
     venues: [],
-    search: ''
+    filter: ''
   }
 
   /// Run after this component is mounted
@@ -75,6 +79,7 @@ class App extends Component {
     });
 
     console.log(`before placing markers ${this.state.venues.length}`);
+    console.log(this.state.venues[0]);
     // ensure there is only one infowindow
     const infowindow = new window.google.maps.InfoWindow();
     this.state.venues.map(item => {
@@ -111,6 +116,10 @@ class App extends Component {
     document.getElementById('map_list').classList.toggle("hidden");
   }
 
+  formKeyUp = (event) => {
+    this.setState({filter: document.getElementById('filter_input').value}, () => {});
+  }
+
   /// main render command to build the DOM
   render() {
     return (
@@ -125,7 +134,8 @@ class App extends Component {
         </nav>
         <div id="app">
         <div id="map_list" className="hidden">
-          <div id="location_list"><ListItems venues={this.state.venues}/></div>
+          <input id="filter_input" onKeyUp={this.formKeyUp} type="text" name="filter"/>
+          <div id="location_list"><ListItems venues={this.state.venues} filter={this.state.filter}/></div>
         </div>
         <div id="map"></div>
         </div>
