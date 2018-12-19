@@ -2,7 +2,7 @@
 Neighborhood map react project for udactiy FEND
 
 ## Google Maps API Restrictions
-In order to prevent theft, my API keys are heavily restricted.  There is a file `/src/api-keys.json` which is listed in `.gitignore`.  You will need to create that file for yourself in the format below in order to gain access to the google maps API.
+In order to prevent theft, my API keys are heavily restricted.  There is a file `/src/api-keys.json` which is listed in `.gitignore`.  This enables you to be able to put in your own keys, and resubmit the project without accidentally uploading your secrets.  You will need to update the keys in that file with your own secret keys in order for the project to funciton.
 
 ```
 {
@@ -12,7 +12,7 @@ In order to prevent theft, my API keys are heavily restricted.  There is a file 
 }
 ```
 
-A file called `api-keysEXAMPLE.json` has been included to assist you.  Replace `<YOUR KEY HERE>` with an active API key.  If you add your api keys in the appropriate locations and make a copy of the file with the word `EXAMPLE` removed, you will be able to continue.
+A file called `api-keysEXAMPLE.json` has been included to assist you should anything happen with the api-keys.json main file.  Remeber that if another API is added, or any other item requiring a secret, that item should be added to api-keys.json manually through the github website.
 
 ## Dependencies
 * react@16.5.2
